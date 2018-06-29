@@ -1,0 +1,212 @@
+{
+	"info": {
+		"_postman_id": "0bddb80a-1a12-4ea8-af6a-35f0c8bff7f9",
+		"name": "Petstore-demo",
+		"description": "Some demo examples of API calls to the Petstore API exposed via Swagger:\n\nhttp://petstore.swagger.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pets",
+			"description": "",
+			"item": [
+				{
+					"name": "POST pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "49d5e24c-e46a-4ff4-9995-89726b98d441",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Response time is less than 300ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// test the response contains REST data",
+									"pm.test('response contains REST body', function() {",
+									"    pm.response.to.have.jsonBody('id');",
+									"    let data = pm.response.json();",
+									"    pm.expect(data.id).to.eql(5643);",
+									"    pm.expect(data.name).to.eql('ROS Dog');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 5643,\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"dog\"\n  },\n  \"name\": \"ROS Dog\",\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 1,\n      \"name\": \"tag\"\n    }\n  ],\n  \"status\": \"available\"\n}"
+						},
+						"url": {
+							"raw": "http://petstore.swagger.io/v2/pet",
+							"protocol": "http",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a9f43832-b6ca-4cd2-987d-f1ea69c3b346",
+								"type": "text/javascript",
+								"exec": [
+									"// test that the respone has a stauts of 200",
+									"pm.test('response is ok', function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// test the response has the pet name of 'ROS Dog'",
+									"pm.test('pet name is doggie', function() {",
+									"    pm.response.to.have.jsonBody('name');",
+									"    let data = pm.response.json();",
+									"    pm.expect(data.name).to.eql('ROS Dog');",
+									"});"
+								]
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\"D2TQ3VH\", \"D2TQ3VN\", \"D2TP577\", \"D2TPLGN\", \"D2TPKXG\", \"D2TNZG4\", \"D2TNDP9\", \"D2TNDNV\"]"
+						},
+						"url": {
+							"raw": "http://petstore.swagger.io/v2/pet/5643",
+							"protocol": "http",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"5643"
+							]
+						},
+						"description": "Simple GET request to retrieve a specific pet"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE pet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "cfd022e5-bede-483d-b03b-bce14482dd11",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "api_key",
+								"value": "secret_key"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://petstore.swagger.io/v2/pet/5643",
+							"protocol": "http",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"5643"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE pet with non existant ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a74543a8-8253-4075-8e31-b788a254d9f9",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 404 as ID does not exist\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "api_key",
+								"value": "secret_key"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://petstore.swagger.io/v2/pet/5643",
+							"protocol": "http",
+							"host": [
+								"petstore",
+								"swagger",
+								"io"
+							],
+							"path": [
+								"v2",
+								"pet",
+								"5643"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
